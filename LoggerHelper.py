@@ -26,3 +26,8 @@ class Logger(object):
         self.logger.error(message)
 
 
+def main():
+    logger = Logger('Test.log')
+    logger.Log("Test")
+
+main()

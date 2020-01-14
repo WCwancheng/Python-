@@ -8,7 +8,7 @@ class Logger(object):
         self.logger = logger = logging.getLogger('baseSpider')
         self.__Start()
     
-    def __Start(self):
+    def __Start(self):   
         #输出格式
         self.formatter = logging.Formatter('%(asctime)s%(levelname)-8s:%(message)s')
         #文件日志
@@ -20,12 +20,14 @@ class Logger(object):
         #为logger添加日志处理器
         self.logger.addHandler(self.file_handler)
         self.logger.addHandler(self.console_handler)
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG) #大于DEBUG的输出
 
     def Log(self,message):
+        self.logger.debug(message)
+
+    def Error(self,message):
         self.logger.error(message)
-
-
+    
 def main():
     logger = Logger('Test.log')
     logger.Log("Test")

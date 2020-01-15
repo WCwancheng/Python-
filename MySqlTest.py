@@ -208,6 +208,30 @@ def SUM_Table(db_name):
     result = cursor.fetchone()
     print(result)
 
+#查询两个表内连接
+def Check_Table_Connect(db_name):
+    conn,cursor = Connect_DB(db_name)
+    connect_str = 'SELECT * FROM user a inner join user_2 b on a.id = b.id;'
+    cursor.execute(connect_str)
+    result = cursor.fetchall()
+    print(result)
+
+#查询两个表左连接
+def Check_Table_LeftConnect(db_name):
+    conn,cursor = Connect_DB(db_name)
+    connect_str = 'SELECT * FROM user a left join user_2 b on a.id = b.id;'
+    cursor.execute(connect_str)
+    result = cursor.fetchall()
+    print(result)
+
+#查询两个表右连接
+def Check_Table_RightConnect(db_name):
+    conn,cursor = Connect_DB(db_name)
+    connect_str = 'SELECT * FROM user a right outer join user_2 b on a.id = b.id;'
+    cursor.execute(connect_str)
+    result = cursor.fetchall()
+    print(result)
+
 def main():
     # Insert_Data(sql_config.DB_Name)
     # Check_Table_Data(sql_config.DB_Name)
@@ -217,7 +241,10 @@ def main():
     # Count_Table(sql_config.DB_Name)
     # MAX_Table(sql_config.DB_Name)
     # MIN_Table(sql_config.DB_Name)
-    SUM_Table(sql_config.DB_Name)
+    # SUM_Table(sql_config.DB_Name)
+    # Check_Table_Connect(sql_config.DB_Name)
+    # Check_Table_LeftConnect(sql_config.DB_Name)
+    Check_Table_RightConnect(sql_config.DB_Name)
 
 
 if __name__=='__main__':

@@ -146,6 +146,18 @@ def main():
     dbHelper = DBHelper("SELECT SUM(age) AS age FROM test;")
     dbHelper.select()
 
+    #查询两个表之间的内连接
+    dbHelper = DBHelper("SELECT * FROM user a inner join user_2 b on a.id = b.id;")
+    dbHelper.select()
+
+    #查询两个表之间的左连接
+    dbHelper = DBHelper("SELECT * FROM user a left join user_2 b on a.id = b.id;")
+    dbHelper.select()
+
+    #查询两个表之间的右连接
+    dbHelper = DBHelper("SELECT * FROM user a right outer join user_2 b on a.id = b.id;")
+    dbHelper.select()
+
     dbHelper.closedatabase()
 
 main()

@@ -126,6 +126,26 @@ def main():
     dbHelper = DBHelper("select * from test")
     dbHelper.select()
 
+    #查列中平均值
+    dbHelper = DBHelper("SELECT AVG(age) AS age FROM test;")
+    dbHelper.select()
+
+    #查询指定列的数目
+    dbHelper = DBHelper("SELECT COUNT(age) AS age FROM test;")
+    dbHelper.select()
+
+    #查询指定列最大值
+    dbHelper = DBHelper("SELECT MAX(age) AS age FROM test;")
+    dbHelper.select()
+
+    #查询指定列最小值
+    dbHelper = DBHelper("SELECT MIN(age) AS age FROM test;")
+    dbHelper.select()
+
+    #查询指定列值的和
+    dbHelper = DBHelper("SELECT SUM(age) AS age FROM test;")
+    dbHelper.select()
+
     dbHelper.closedatabase()
 
 main()

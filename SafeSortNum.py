@@ -1,4 +1,11 @@
 
+#经典面试题 寻找全排列的下一位数
+#给出一个正整数，找出这个正整数的所有数字全排列的下一位数
+#例子：
+#1.输入12345 返回12354
+#2.输入12354 返回12435
+#3.输入12435 返回12453
+
 def findNearestNumber(numbers):
     index = findTransferPoint(numbers)
     if index == 0:

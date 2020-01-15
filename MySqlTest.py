@@ -7,11 +7,18 @@ class MySQLConfig:
     port = 3306
     user = 'root'
     passwd = 'Xfour168***' 
-    DB_Name = 'PythonDB'
+    DB_Name = 'pythonDB'
     charset = 'utf8'
 
 
 sql_config = MySQLConfig()
+
+def Connect_DB(db_name):
+    conn = sql.connect(sql_config.host,user=sql_config.user,passwd=sql_config.passwd)
+    conn.select_db(db_name)
+    cursor = conn.cursor()
+    return conn,cursor
+
 #创建数据库
 def Create_DB():
     conn = sql.connect(sql_config.host,user=sql_config.user,passwd=sql_config.passwd)
@@ -23,8 +30,7 @@ def Create_DB():
 
 #创建表
 def Create_Table(db_name):
-    conn = sql.connect(sql_config.host,user=sql_config.user,passwd=sql_config.passwd,db=db_name)
-    cursor = conn.cursor()
+    conn,cursor = Connect_DB(db_name)
     cursor.execute('drop table if exists user')
     sql_str = """CREATE TABLE IF NOT EXISTS `user` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -42,9 +48,7 @@ def Create_Table(db_name):
 #往表中插入数据
 def Insert_Data(db_name):
     Create_Table(db_name)
-    conn = sql.connect(sql_config.host,user=sql_config.user,passwd=sql_config.passwd)
-    conn.select_db(db_name)
-    cursor = conn.cursor()
+    conn,cursor = Connect_DB(db_name)
     #方式一
     # insert = cursor.execute("insert into user values(1,'tom',18)")
     # print(insert)
@@ -76,9 +80,7 @@ def Insert_Data(db_name):
 
 #查表中数据
 def Check_Table_Data(db_name):
-    conn = sql.connect(sql_config.host,user=sql_config.user,passwd=sql_config.passwd)
-    conn.select_db(db_name)
-    cursor = conn.cursor()
+    conn,cursor = Connect_DB(db_name)
     cursor.execute("select * from user;")
     while 1:
         res = cursor.fetchone()
@@ -104,9 +106,7 @@ def Check_Table_Data(db_name):
 
 #表中更新数据
 def Update_Table_Data(db_name):
-    conn = sql.connect(sql_config.host,user=sql_config.user,passwd=sql_config.passwd)
-    conn.select_db(db_name)
-    cursor = conn.cursor()
+    conn,cursor = Connect_DB(db_name)
     upadte = cursor.execute("update user set age=55 where name='tom'")
     print("修改的行数: ",upadte)
     cursor.execute('select * from user where name="tom";')
@@ -133,9 +133,7 @@ def Update_Table_Data(db_name):
 
 #删除表中数据
 def Delete_Table_Data(db_name):
-    conn = sql.connect(sql_config.host,user=sql_config.user,passwd=sql_config.passwd)
-    conn.select_db(sql_config.DB_Name)
-    cursor = conn.cursor()
+    conn,cursor = Connect_DB(db_name)
     #删除前查询所有数据
     cursor.execute("select * from user;")
     for res in cursor.fetchall():
@@ -170,12 +168,56 @@ def Delete_Table_Data(db_name):
     conn.close()
     print("Delete_Table_Data Succeed")
 
+#求该列的平均值
+def Avg_Table(db_name):
+    conn,cursor = Connect_DB(db_name)
+    avg_str = 'SELECT AVG(age) AS age FROM user;'
+    cursor.execute(avg_str)
+    result = cursor.fetchone() #fetchone 返回一个结果 fetchall 返回所有结果 fetchmany(size) 返回前几个结果
+    print(result)
+
+#查询表中条件行的数目
+def Count_Table(db_name):
+    conn,cursor = Connect_DB(db_name)
+    count_str = 'SELECT COUNT(*) AS age FROM user;' #*对所有行计数
+    cursor.execute(count_str)
+    result = cursor.fetchone()
+    print(result)
+
+#查询指定列中最大值
+def MAX_Table(db_name):
+    conn,cursor = Connect_DB(db_name)
+    max_str = 'SELECT MAX(age) AS age FROM user;'
+    cursor.execute(max_str)
+    result = cursor.fetchone()
+    print(result)
+
+#查询指定列中最小值
+def MIN_Table(db_name):
+    conn,cursor = Connect_DB(db_name)
+    min_str = 'SELECT MIN(age) AS age FROM user;'
+    cursor.execute(min_str)
+    result = cursor.fetchone()
+    print(result)
+
+#查询指定列中所有数的和
+def SUM_Table(db_name):
+    conn,cursor = Connect_DB(db_name)
+    sum_str = 'SELECT SUM(age) AS age FROM user;'
+    cursor.execute(sum_str)
+    result = cursor.fetchone()
+    print(result)
+
 def main():
     # Insert_Data(sql_config.DB_Name)
     # Check_Table_Data(sql_config.DB_Name)
-    Update_Table_Data(sql_config.DB_Name)
+    # Update_Table_Data(sql_config.DB_Name)
     # Delete_Table_Data(sql_config.DB_Name)
-
+    # Avg_Table(sql_config.DB_Name)
+    # Count_Table(sql_config.DB_Name)
+    # MAX_Table(sql_config.DB_Name)
+    # MIN_Table(sql_config.DB_Name)
+    SUM_Table(sql_config.DB_Name)
 
 
 if __name__=='__main__':
